@@ -74,15 +74,20 @@ function App() {
     []
   )
 
+
+
   React.useEffect(() => {
-    auth.getToken()
-      .then((res) => {
-        res.data ? setLoggedIn(true) : setLoggedIn(false);
-        setEmail(res.data.email);
-        history.push('/');
-      })
-      .catch(err => console.log(err));
-  }, [history, loggedIn])
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getToken()
+        .then((res) => {
+          res.data ? setLoggedIn(true) : setLoggedIn(false);
+          setEmail(res.data.email);
+          history.push('/');
+        })
+        .catch(err => console.log(err));
+    }
+  }, [loggedIn])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -141,7 +146,7 @@ function App() {
       })
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   // const tokenCheck = () => {
   //   const jwt = localStorage.getItem('jwt');
   //   if (jwt) {
@@ -193,7 +198,7 @@ function handleLogin (data) {
       email: data.email
   })
   .then((res) => {
-      localStorage.setItem('jwt', res.data.token);
+      localStorage.setItem('jwt', res.token);
       setLoggedIn(true);
       history.push('/')
   })
