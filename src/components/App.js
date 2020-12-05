@@ -181,7 +181,7 @@ function App() {
             title: 'Вы успешно зарегистрировались!',
             success: true
         });
-        history.push('/');
+        history.push('/signin');
     })
     .catch((err) => {
         console.log(err);
